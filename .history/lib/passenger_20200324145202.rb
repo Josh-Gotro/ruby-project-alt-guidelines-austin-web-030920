@@ -5,12 +5,10 @@ class Passenger < ActiveRecord::Base
     has_many :services, through: :visits
 end
 
-def update_drivers
-    ONLINE = [true, false]
+def call_ride
     Drivers.all.each do |driver|
         driver.update(zip_code: ZIPCODE.sample)
         driver.update(online?: ONLINE.sample)
     end
-end
 
-    
+    ONLINE = [true, false]
