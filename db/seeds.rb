@@ -7,11 +7,11 @@ austinZipcodes = [78610, 78613, 78617, 78641, 78652, 78653, 78660, 78664,
     78753, 78754, 78756, 78757, 78758, 78759]
 
 50.times do
-    Driver.create!(name: Faker::Name.name, online?: online.sample, zip_code: austinZipcodes.sample)
+    Driver.create!(name: Faker::Internet.unique.free_email, online?: online.sample, zip_code: austinZipcodes.sample)
 end
 
 5.times do
-    Passenger.create!(name: Faker::Name.name)
+    Passenger.create!(name: Faker::Internet.unique.free_email)
 end
 
 5.times do

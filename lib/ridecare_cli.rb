@@ -14,7 +14,7 @@
         user_input = get_user_input
 
         until valid_inputs.include?(user_input)
-            invalid_command
+            invalid_input
             new_user_prompt
             user_input = get_user_input
         end
@@ -24,7 +24,7 @@
     end
 
     def invalid_input
-        "Please enter a valid command"
+        "Please enter a valid input"
     end
 
     def new_passenger
@@ -33,9 +33,50 @@
     end
 
     def user_name
-        puts "please enter your name"
+        puts "please enter your email address"
         get_user_input  
     end
+
+    def existing_passenger
+        puts "Please log in!"
+        Passenger.find_by(name: "#{user_name}")
+    end
+
+    user_choice_array = [
+        "  1) View Services\n",
+        "  2) View Previous Visits\n",
+        "  3) Call a Ride\n"
+    ]
+
+    def user_action_prompt
+        puts "What would you like to do today? Select by entering the number of your choice.\n\n"
+    end
+
+    def user_action
+        puts user_choice_array
+        valid_input = ["1", "2", "3"]
+        user_input = get_user_input
+
+        until valid_inputs.include?(user_input)
+            invalid_input
+            user_action_prompt
+            user_input = get_user_input
+        end
+
+        if user_input == "1"
+            view_services #stub
+        elsif user_input == "2"
+            view_previous_visits #stub
+        else
+            call_ride #stub (remember to randomize online? and zip_code for drivers)
+        end
+    end
+
+    def view_services
+        
+    end
+
+
 
 
 
