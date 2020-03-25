@@ -1,6 +1,7 @@
     class RideCare
 
     def start
+        puts "Welcome to RideCare!"
         passenger_exists?
         
     end
@@ -31,7 +32,7 @@
     end
 
     def invalid_input
-        "Please enter a valid input"
+        puts "Please enter a valid input"
     end
 
     def new_passenger(email)
@@ -52,30 +53,32 @@
     def existing_passenger
         puts "Please log in!"
         user_email = email_prompt
-        if !Passenger.find_by(name: user_email)
+        if Passenger.find_by(name: user_email)
+            user_action
+        else
             puts "Email Address not found!"
             existing_passenger
-        else
-            Passenger.find_by(name: user_email)
         end
     end
-
-    user_choice_array = [
-        "  1) View Services\n",
-        "  2) View Previous Visits\n",
-        "  3) Call a Ride\n"
-    ]
 
     def user_action_prompt
         puts "What would you like to do today? Select by entering the number of your choice.\n\n"
     end
 
     def user_action
-        puts user_choice_array
+        user_choice_array = [
+        "  1) View Services\n",
+        "  2) View Previous Visits\n",
+        "  3) Call a Ride\n"
+    ]
+        user_action_prompt
+        user_choice_array.each do |choice|
+            puts choice
+        end
         valid_input = ["1", "2", "3"]
         user_input = get_user_input
 
-        until valid_inputs.include?(user_input)
+        until valid_input.include?(user_input)
             invalid_input
             user_action_prompt
             user_input = get_user_input
@@ -90,12 +93,13 @@
         end
     end
 
-    service_search_parameter = [
-
-    ]
+    
 
     def view_services
-
+        service_search_parameter = [
+            
+        ]
+        puts "stub"
     end
 
     def view_previous_visits

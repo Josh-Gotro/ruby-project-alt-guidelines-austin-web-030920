@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_170403) do
     t.datetime "visit_time"
     t.integer "passenger_id"
     t.integer "service_id"
+    t.integer "ride_id"
   end
 
 end
