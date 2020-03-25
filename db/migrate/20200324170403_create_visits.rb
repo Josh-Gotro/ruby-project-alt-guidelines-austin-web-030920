@@ -4,6 +4,7 @@ class CreateVisits < ActiveRecord::Migration[5.2]
       t.datetime :visit_time
       t.integer :passenger_id
       t.integer :service_id
+      t.integer :ride_id
     end
   end
 end
