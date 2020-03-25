@@ -1,3 +1,10 @@
+    class RideCare
+
+    def start
+        passenger_exists?
+        
+    end
+
     def get_user_input
         gets.chomp
     end
@@ -6,40 +13,51 @@
         puts "Are you a new passenger? (y/n)"
     end
 
-    def existing_user?
-        valid_inputs = ["y", "n"]
-        new_passenger = true
-
+    def passenger_exists?
         new_user_prompt
         user_input = get_user_input
 
-        until valid_inputs.include?(user_input)
+        until user_input == "y" || user_input == "n"
             invalid_input
-            new_user_prompt
-            user_input = get_user_input
+            passenger_exists?
         end
 
-        new_passenger = false if user_input == "y" 
-        new_passenger
+        if user_input == "y"
+            user_email = email_prompt
+            new_passenger(user_email)
+        else
+            existing_passenger
+        end
     end
 
     def invalid_input
         "Please enter a valid input"
     end
 
-    def new_passenger
+    def new_passenger(email)
         puts "Create a new account"
-        Passenger.create(name: "#{user_name}")
+        if Passenger.find_by(name: email)
+            puts "You already have an account!"
+            existing_passenger(email)
+        else
+            Passenger.create(name: email)
+        end
     end
 
-    def user_name
-        puts "please enter your email address"
+    def email_prompt
+        puts "Enter your email address"
         get_user_input  
     end
 
     def existing_passenger
         puts "Please log in!"
-        Passenger.find_by(name: "#{user_name}")
+        user_email = email_prompt
+        if !Passenger.find_by(name: user_email)
+            puts "Email Address not found!"
+            existing_passenger
+        else
+            Passenger.find_by(name: user_email)
+        end
     end
 
     user_choice_array = [
@@ -72,9 +90,18 @@
         end
     end
 
+    service_search_parameter = [
+
+    ]
+
     def view_services
+
+    end
+
+    def view_previous_visits
         
     end
+end
 
 
 
