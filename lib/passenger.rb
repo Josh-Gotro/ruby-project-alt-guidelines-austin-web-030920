@@ -11,7 +11,8 @@ class Passenger < ActiveRecord::Base
         # current_ride.driver_id = Driver.random_driver_by_zip(78704)
         puts current_ride
         #use random driver
-        #
+        #address of service
+        #attach self to ride
     end
 end
 

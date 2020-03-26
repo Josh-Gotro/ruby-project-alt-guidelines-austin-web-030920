@@ -2,6 +2,8 @@ class Driver < ActiveRecord::Base
     has_many :rides
     has_many :passengers, through: :rides
 
+
+
     # provides an array of all zipcodes of drivers
     def self.driver_zipcodes
         driver_zips = []
