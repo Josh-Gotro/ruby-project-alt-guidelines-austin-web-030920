@@ -56,6 +56,7 @@ class RideCare
             puts "\nSuccess!\n\n"
             puts "*"*30
             puts "\n\n"
+            @current_user = email
             user_action
         end
     end
@@ -67,6 +68,7 @@ class RideCare
 
     def existing_passenger
         user_email = email_prompt
+        @current_user = user_email
         if Passenger.find_by(name: user_email)
             puts "*"*30
             puts "\nLogin Successful!\n\n"
@@ -122,13 +124,51 @@ class RideCare
 
     def view_services
         service_search_parameter = [
-
+            "  1) Referral Type",
+            "  2) Zip Code"
         ]
-        puts "stub"
+
+        service_search_parameter.each do |choice|
+            puts choice
+        end
+        user_input = get_user_input
+        if user_input == "1"
+            printed_services = print_referral_types
+            selected_service = printed_services[select_referral_type.to_i - 1]
+            display_selected_services(selected_service)
+        end
     end
 
-    def view_previous_visits
+    def display_selected_services(service)
+        services = Service.view_services_by(service)
+        puts "Showing all #{service}"
+        services.each do |s|
+            puts s.primary_service
+            puts s.location_name
+            puts s.address
+        end
+    end
 
+    def print_referral_types
+        # referrals = Service.all.map do |service|
+        #     service.referral_type
+        # end.uniq
+        referrals = Service.distinct.pluck(:referral_type)
+        referrals.delete(nil)
+        referrals.each.with_index(1) do |referral, index|
+            puts "#{index}) " + "#{referral}"
+        end
+    end
+
+    def select_referral_type
+        puts "Choose from the list of referral types"
+        get_user_input
+    end
+
+
+
+    def view_previous_visits
+        
     end
 end
 

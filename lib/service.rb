@@ -25,8 +25,7 @@ class Service < ActiveRecord::Base
     end
 
     def self.view_services_by(service_type)
-        self.where(referral_type)
-
+        self.where("referral_type = service_type")
     end
 end
 
