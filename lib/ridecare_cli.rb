@@ -108,7 +108,7 @@ class RideCare
         elsif user_input == "2"
             view_previous_visits #stub
         elsif user_input == "3"
-            call_ride #stub (remember to randomize online? and zip_code for drivers)
+            call_ride 
         else
             puts "\n", "*"*30, "\n" 
             puts "Thank you for using RideCare today!"
@@ -117,7 +117,6 @@ class RideCare
             # passenger_exists?
         end
     end
-
     
 
     def view_services
@@ -130,6 +129,12 @@ class RideCare
     def view_previous_visits
 
     end
+
+    def call_ride
+    Passenger.call_ride
+    end
+
+
 end
 
 

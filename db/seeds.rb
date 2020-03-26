@@ -25,3 +25,5 @@ end
 # 5.times do
 #     Service.create!(referral_type: "Immunizations", primary_service: "Immunization clinics", location_name: "Hospital", zip_code: austinZipcodes.sample)
 # end
+
+
