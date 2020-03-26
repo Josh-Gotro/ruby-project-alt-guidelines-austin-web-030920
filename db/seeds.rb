@@ -34,7 +34,7 @@ records = JSON.parse(response.body)
 
 records.each do |r|
     web_address = r["for_more_information"]["url"] if r["for_more_information"]
-    Service.create(
+    Service.find_or_create(
         referral_type: r["referral_type"],
         primary_service: r["primary_service_to_community"],
         location_name: r["location_name"],
