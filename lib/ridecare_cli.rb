@@ -122,10 +122,47 @@ class RideCare
 
     def view_services
         service_search_parameter = [
-
+            "  1) Referral Type",
+            "  2) Zip Code"
         ]
-        puts "stub"
+
+        service_search_parameter.each do |choice|
+            puts choice
+        end
+        user_input = get_user_input
+        if user_input == "1"
+            printed_services = print_referral_types
+            selected_service = printed_services[select_referral_type.to_i - 1]
+            display_selected_services(selected_service)
+        end
     end
+
+    def display_selected_services(service)
+        services = Service.view_services_by(service)
+        puts "Showing all #{service}"
+        services.each do |s|
+            puts s.primary_service
+            puts s.location_name
+            puts s.address
+        end
+    end
+
+    def print_referral_types
+        referrals = Service.all.map do |service|
+            service.referral_type
+        end.uniq
+        referrals.delete(nil)
+        referrals.each.with_index(1) do |referral, index|
+            puts "#{index}) " + "#{referral}"
+        end
+    end
+
+    def select_referral_type
+        puts "Choose from the list of referral types"
+        get_user_input
+    end
+
+
 
     def view_previous_visits
 
