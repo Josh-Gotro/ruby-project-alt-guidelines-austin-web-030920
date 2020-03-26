@@ -24,6 +24,7 @@ end
 
 # 5.times do
 #     Service.create!(referral_type: "Immunizations", primary_service: "Immunization clinics", location_name: "Hospital", zip_code: austinZipcodes.sample)
+<<<<<<< HEAD
 # end
 
 url = "https://data.austintexas.gov/resource/9nwy-7ej8.json"
@@ -43,3 +44,6 @@ records.each do |r|
         web_address: web_address
         )
 end
+=======
+# end
+>>>>>>> 00d85a47290de00ebbf527514994fccc55229867
