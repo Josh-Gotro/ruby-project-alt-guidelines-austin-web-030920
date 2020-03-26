@@ -23,9 +23,24 @@ class Service < ActiveRecord::Base
                 )
         end
     end
+    
+    def self.all_zips
+        zips = []
+        Service.find_each do |service|
+            zips << service.zip_code if service.zip_code
+            end
+    zips
+    end
 
     def self.view_services_by(service_type)
         self.where("referral_type = service_type")
     end
 end
 
+# def self.driver_zipcodes
+#     driver_zips = []
+#     Driver.find_each do |driver|
+#         driver_zips << driver.zip_code
+#     end
+# driver_zips
+# end
