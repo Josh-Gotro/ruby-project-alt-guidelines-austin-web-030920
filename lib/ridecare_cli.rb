@@ -56,6 +56,7 @@ class RideCare
             puts "\nSuccess!\n\n"
             puts "*"*30
             puts "\n\n"
+            @current_user = email
             user_action
         end
     end
@@ -67,6 +68,7 @@ class RideCare
 
     def existing_passenger
         user_email = email_prompt
+        @current_user = user_email
         if Passenger.find_by(name: user_email)
             puts "*"*30
             puts "\nLogin Successful!\n\n"
@@ -148,9 +150,10 @@ class RideCare
     end
 
     def print_referral_types
-        referrals = Service.all.map do |service|
-            service.referral_type
-        end.uniq
+        # referrals = Service.all.map do |service|
+        #     service.referral_type
+        # end.uniq
+        referrals = Service.distinct.pluck(:referral_type)
         referrals.delete(nil)
         referrals.each.with_index(1) do |referral, index|
             puts "#{index}) " + "#{referral}"
@@ -165,7 +168,7 @@ class RideCare
 
 
     def view_previous_visits
-
+        
     end
 end
 
