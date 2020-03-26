@@ -23,4 +23,10 @@ class Service < ActiveRecord::Base
                 )
         end
     end
+
+    def self.view_services_by(service_type)
+        self.where(referral_type)
+
+    end
 end
+

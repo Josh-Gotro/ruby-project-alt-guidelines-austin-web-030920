@@ -24,26 +24,4 @@ end
 
 # 5.times do
 #     Service.create!(referral_type: "Immunizations", primary_service: "Immunization clinics", location_name: "Hospital", zip_code: austinZipcodes.sample)
-<<<<<<< HEAD
 # end
-
-url = "https://data.austintexas.gov/resource/9nwy-7ej8.json"
-
-uri = URI.parse(url)
-response = Net::HTTP.get_response(uri)
-records = JSON.parse(response.body)
-
-records.each do |r|
-    web_address = r["for_more_information"]["url"] if r["for_more_information"]
-    Service.find_or_create(
-        referral_type: r["referral_type"],
-        primary_service: r["primary_service_to_community"],
-        location_name: r["location_name"],
-        zip_code: r["zip_code"],
-        address: r["address_1"],
-        web_address: web_address
-        )
-end
-=======
-# end
->>>>>>> 00d85a47290de00ebbf527514994fccc55229867

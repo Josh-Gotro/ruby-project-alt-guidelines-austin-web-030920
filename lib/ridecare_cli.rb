@@ -25,11 +25,12 @@ class RideCare
         end
 
         if user_input == "y"
-            puts "Create a new account"
-            user_email = email_prompt
-            # binding.pry
+            puts "Create a new account by entering your email address\nOR type 'login' if you are an existing user."
+            user_email = get_user_input
             if user_email.match(URI::MailTo::EMAIL_REGEXP)
                 new_passenger(user_email)
+            elsif user_email == "login"
+                existing_passenger
             else
                 invalid_input
                 passenger_exists?
@@ -44,13 +45,18 @@ class RideCare
     end
 
     def new_passenger(email)
+
         if Passenger.find_by(name: email)
             puts "You already have an account!"
             puts "Please log in!"
             existing_passenger
         else
             Passenger.create(name: email)
-            puts "Success!"
+            puts "*"*30
+            puts "\nSuccess!\n\n"
+            puts "*"*30
+            puts "\n\n"
+            user_action
         end
     end
 
@@ -65,6 +71,7 @@ class RideCare
             puts "*"*30
             puts "\nLogin Successful!\n\n"
             puts "*"*30
+            puts "\n\n"
             user_action
         else
             puts "Email Address not found!"
@@ -80,13 +87,14 @@ class RideCare
         user_choice_array = [
         "  1) View Services\n",
         "  2) View Previous Visits\n",
-        "  3) Call a Ride\n"
+        "  3) Call a Ride\n",
+        "  4) Log Out\n"
     ]
         user_action_prompt
         user_choice_array.each do |choice|
             puts choice
         end
-        valid_input = ["1", "2", "3"]
+        valid_input = ["1", "2", "3", "4"]
         user_input = get_user_input
 
         until valid_input.include?(user_input)
@@ -99,8 +107,14 @@ class RideCare
             view_services #stub
         elsif user_input == "2"
             view_previous_visits #stub
-        else
+        elsif user_input == "3"
             call_ride #stub (remember to randomize online? and zip_code for drivers)
+        else
+            puts "\n", "*"*30, "\n" 
+            puts "Thank you for using RideCare today!"
+            puts "\n", "*"*30, "\n" 
+            # new_user_prompt
+            # passenger_exists?
         end
     end
 
@@ -114,7 +128,7 @@ class RideCare
     end
 
     def view_previous_visits
-        
+
     end
 end
 
