@@ -1,7 +1,9 @@
-    class RideCare
-
+class RideCare
+    
     def start
+        Service.seed_data
         puts "Welcome to RideCare!"
+        new_user_prompt
         passenger_exists?
         
     end
@@ -15,7 +17,6 @@
     end
 
     def passenger_exists?
-        new_user_prompt
         user_input = get_user_input
 
         until user_input == "y" || user_input == "n"
@@ -24,8 +25,15 @@
         end
 
         if user_input == "y"
+            puts "Create a new account"
             user_email = email_prompt
-            new_passenger(user_email)
+            # binding.pry
+            if user_email.match(URI::MailTo::EMAIL_REGEXP)
+                new_passenger(user_email)
+            else
+                invalid_input
+                passenger_exists?
+            end
         else
             existing_passenger
         end
@@ -36,12 +44,13 @@
     end
 
     def new_passenger(email)
-        puts "Create a new account"
         if Passenger.find_by(name: email)
             puts "You already have an account!"
-            existing_passenger(email)
+            puts "Please log in!"
+            existing_passenger
         else
             Passenger.create(name: email)
+            puts "Success!"
         end
     end
 
@@ -51,9 +60,11 @@
     end
 
     def existing_passenger
-        puts "Please log in!"
         user_email = email_prompt
         if Passenger.find_by(name: user_email)
+            puts "*"*30
+            puts "\nLogin Successful!\n\n"
+            puts "*"*30
             user_action
         else
             puts "Email Address not found!"
@@ -97,7 +108,7 @@
 
     def view_services
         service_search_parameter = [
-            
+
         ]
         puts "stub"
     end
