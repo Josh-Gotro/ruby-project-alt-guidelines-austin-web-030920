@@ -190,11 +190,12 @@ class RideCare
     def view_previous_visits     # what if no previous visits? <----------------------------------------
         Art.visits
         current_user.visits.each do |visit|
-            puts "\n" + Art.s("*"*50)
+            puts Art.s("*"*50)
             # puts "Visit ID:" + visit.id.to_s
             puts Art.p("\nVisitor Email Address: " + Passenger.find(visit.passenger_id).name.to_s)
             puts Art.p("Location Visited: " + Service.find(visit.service_id).location_name.to_s)
             puts Art.p("Business Address: " + Service.find(visit.service_id).address.to_s)
+            puts "\n"
         end
         # Art.success
         Art.pink_triangle_drop

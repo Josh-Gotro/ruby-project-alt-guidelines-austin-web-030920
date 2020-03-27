@@ -43,7 +43,7 @@ class Art < ActiveRecord::Base
 
     #Shapes
     def self.triangle_drop
-        puts self.n("*"*30), self.n("*"*20), self.n("*"*10), self.n("*"*2)
+        puts "\n", self.n("*"*30), self.n("*"*20), self.n("*"*10), self.n("*"*2)
     end
 
     def self.pink_triangle_drop
