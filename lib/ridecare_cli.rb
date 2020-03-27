@@ -95,7 +95,7 @@ class RideCare
         user_choice_array.each do |choice|
             puts choice
         end
-        valid_input = ["1", "2", "3", "4"]
+        valid_input = ["1", "2", "3"]
         user_input = get_user_input
 
         until valid_input.include?(user_input)
@@ -119,8 +119,7 @@ class RideCare
 
     def view_services
         service_search_parameter = [
-            "  1) Referral Type",
-            "  2) Zip Code"
+            "  1) Referral Type"
         ]
 
         service_search_parameter.each do |choice|
@@ -160,6 +159,7 @@ class RideCare
             which_service = get_user_input
             # binding.pry
             current_user.services << (@services[which_service.to_i - 1])
+            puts "*"*30, "Success!", "*"*30
             user_action
         else
             user_action
@@ -185,7 +185,17 @@ class RideCare
 
 
     def view_previous_visits
-        Visits.all()
+        # binding.pry
+        current_user.visits.each do |visit|
+            puts "*"*30
+            # puts "Visit ID:" + visit.id.to_s
+            puts "Visitor Email Address: " + Passenger.find(visit.passenger_id).name.to_s
+            puts "Location Visited: " + Service.find(visit.service_id).location_name.to_s
+            puts "Business Address: " + Service.find(visit.service_id).address.to_s
+        end
+        puts "*"*30, "Success!", "*"*30
+        user_action
+
         #query passenger table by email, for user ID, then query visits for matching Visits.passenger_id
     end
 
@@ -201,23 +211,3 @@ class RideCare
             # passenger_exists?
     end
 end
-
-
-
-
-
-# def hit?(card_total)
-#     valid_inputs = ["h", "s"]
-  
-#     prompt_user
-#     user_input = get_user_input
-  
-#     until valid_inputs.include?(user_input)
-#       invalid_command
-#       prompt_user
-#       user_input = get_user_input
-#     end
-  
-#     if user_input == "h"
-#       card_total += deal_card
-#     end

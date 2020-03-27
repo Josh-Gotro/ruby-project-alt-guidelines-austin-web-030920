@@ -39,10 +39,8 @@ ActiveRecord::Schema.define(version: 2020_03_24_170403) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.datetime "visit_time"
     t.integer "passenger_id"
     t.integer "service_id"
-    t.integer "ride_id"
   end
 
 end
