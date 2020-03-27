@@ -2,7 +2,7 @@ class RideCare
     
     def start
         Service.seed_data
-        puts "Welcome to RideCare!"
+        Art.welcome
         new_user_prompt
         passenger_exists?
         
@@ -13,7 +13,8 @@ class RideCare
     end
 
     def new_user_prompt
-        puts "Are you a new passenger? (y/n)"
+        Art.triangle_drop
+        puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n").blink
     end
 
     def passenger_exists?
@@ -21,11 +22,12 @@ class RideCare
 
         until user_input == "y" || user_input == "n"
             invalid_input
+            puts Art.s("                                 (y,n)").blink
             passenger_exists?
         end
 
         if user_input == "y"
-            puts "Create a new account by entering your email address\nOR type 'login' if you are an existing user."
+            puts Art.p("\n     Enter your ") + Art.s("email address ") + Art.p("to create a new account\n     OR type ")+ Art.s("'login' ") + Art.p("if you are an existing user.\n")
             user_email = get_user_input
             if user_email.match(URI::MailTo::EMAIL_REGEXP)
                 new_passenger(user_email)
@@ -33,6 +35,7 @@ class RideCare
                 existing_passenger
             else
                 invalid_input
+                puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n").blink
                 passenger_exists?
             end
         else
@@ -41,27 +44,25 @@ class RideCare
     end
 
     def invalid_input
-        puts "Please enter a valid input"
+        puts Art.e("     !! Sorry, but that's not a valid input !!")
     end
 
     def new_passenger(email)
 
         if Passenger.find_by(name: email)
-            puts "You already have an account!"
-            puts "Please log in!"
+            puts Art.p("\n     You already have an account!")
+            puts Art.p("     Please log in!")
             existing_passenger
         else
             @current_user = Passenger.create(name: email)
-            puts "*"*30
-            puts "\nSuccess!\n\n"
-            puts "*"*30
-            puts "\n\n"
+            Art.success
+            Art.triangle_drop
             user_action
         end
     end
 
     def email_prompt
-        puts "Enter your email address"
+        puts Art.p("\n     Enter your ") + Art.s("email address \n")
         get_user_input  
     end
 
@@ -69,27 +70,27 @@ class RideCare
         user_email = email_prompt
         if Passenger.find_by(name: user_email)
             @current_user = Passenger.find_by(name: user_email)
-            puts "*"*30
-            puts "\nLogin Successful!\n\n"
-            puts "*"*30
-            puts "\n\n"
+            Art.success
+            Art.triangle_drop
             user_action
         else
-            puts "Email Address not found!"
+            puts Art.p"\n     Email Address not found!" #<------------------ what if you don't have an email address?
             existing_passenger
         end
     end
 
     def user_action_prompt
-        puts "What would you like to do today? Select by entering the number of your choice.\n\n"
+        puts Art.p("\n     What would you like to do today?\n     Select a") + Art.s(" number.\n").blink
     end
 
     def user_action
         user_choice_array = [
-        "  1) View Services\n",
-        "  2) View Previous Visits\n",
+         "     " +   Art.n(' -'*14),
+         "     " + Art.n("|  1) View Services        |"),
+         "     " + Art.n("|  2) View Previous Visits |"),
         # "  3) Call a Ride\n",
-        "  3) Log Out\n"
+        "     " + Art.n("|  3) Log Out              |"),
+        "     " + Art.n(' -'*14), "\n"
         ]
         user_action_prompt
         user_choice_array.each do |choice|
@@ -135,31 +136,32 @@ class RideCare
 
     def display_selected_services(service)
         @services = Service.view_services_by(service)
-        puts "Showing all #{service}"
-        puts "*"*30
+        # SHOULD SHOW "0" dislplays "13"?  <-----------------------------------------------------------
+        # EDGE CASE, create option in case user enters number not associated with a service. <----------
+        puts Art.p("\n     Showing all") + Art.n(" #{service}")
+        puts "\n" + Art.s("*"*50)
         @services.each.with_index(1) do |s, index|
-            puts "#{index})"
-            puts "  " + s.primary_service
-            puts "  " + s.location_name
-            puts "  " + s.address
-            puts "*"*30
+            puts Art.p("  #{index})")
+            puts Art.p("     " + s.primary_service)
+            puts Art.p("     " + s.location_name)
+            puts Art.p("     " + s.address)
+            puts Art.s("*"*50)
         end
         create_visit?
     end
 
     def create_visit?
-        puts "Do you want to create a Visit? (y/n)"
+        puts Art.p("\n\n     Would you like to create a Visit? ") + Art.s("(y/n)").blink
         visit_question = get_user_input
         until visit_question == "y" || visit_question == "n"
             invalid_input
             create_visit?
         end
         if visit_question == "y"
-            puts "Please input the service by number"
+            puts Art.p("\n     Please input the service by ") + Art.s("number").blink
             which_service = get_user_input
-            # binding.pry
             current_user.services << (@services[which_service.to_i - 1])
-            puts "*"*30, "Success!", "*"*30
+            Art.booked
             user_action
         else
             user_action
@@ -173,27 +175,28 @@ class RideCare
         referrals = Service.distinct.pluck(:referral_type)
         referrals.delete(nil)
         referrals.each.with_index(1) do |referral, index|
-            puts "#{index}) " + "#{referral}"
+            puts Art.p("     #{index}) ") + Art.p("#{referral}")
         end
     end
 
     def select_referral_type
-        puts "Choose from the list of referral types"
+        puts Art.p("\n     Select the ") + Art.s("number ").blink + Art.p("of the service you would like to view\n")
         get_user_input
     end
 
 
 
     def view_previous_visits
-        # binding.pry
+        Art.visits
         current_user.visits.each do |visit|
-            puts "*"*30
+            puts "\n" + Art.s("*"*50)
             # puts "Visit ID:" + visit.id.to_s
-            puts "Visitor Email Address: " + Passenger.find(visit.passenger_id).name.to_s
-            puts "Location Visited: " + Service.find(visit.service_id).location_name.to_s
-            puts "Business Address: " + Service.find(visit.service_id).address.to_s
+            puts Art.p("\nVisitor Email Address: " + Passenger.find(visit.passenger_id).name.to_s)
+            puts Art.p("Location Visited: " + Service.find(visit.service_id).location_name.to_s)
+            puts Art.p("Business Address: " + Service.find(visit.service_id).address.to_s)
         end
-        puts "*"*30, "Success!", "*"*30
+        # Art.success
+        Art.pink_triangle_drop
         user_action
 
         #query passenger table by email, for user ID, then query visits for matching Visits.passenger_id
@@ -204,10 +207,9 @@ class RideCare
     end
 
     def logout
-        puts "\n", "*"*30, "\n" 
-        puts "Thank you for using RideCare today!"
-        puts "\n", "*"*30, "\n" 
-            # new_user_prompt
-            # passenger_exists?
+        Art.logout
+        puts Art.p("     You have been succesfully logged out").blink
+ 
     end
 end
+
