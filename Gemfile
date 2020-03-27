@@ -8,3 +8,4 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem "awesome_print"
+gem 'colorize', '~> 0.8.1'
