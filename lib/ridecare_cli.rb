@@ -136,6 +136,7 @@ class RideCare
 
     def display_selected_services(service)
         @services = Service.view_services_by(service)
+        # SHOULD SHOW "0" dislplays "13"?  <-----------------------------------------------------------
         # EDGE CASE, create option in case user enters number not associated with a service. <----------
         puts Art.p("\n     Showing all") + Art.n(" #{service}")
         puts "\n" + Art.s("*"*50)
@@ -159,7 +160,6 @@ class RideCare
         if visit_question == "y"
             puts Art.p("\n     Please input the service by ") + Art.s("number").blink
             which_service = get_user_input
-            # binding.pry
             current_user.services << (@services[which_service.to_i - 1])
             Art.booked
             user_action
@@ -187,7 +187,7 @@ class RideCare
 
 
     def view_previous_visits
-        # binding.pry
+        Art.visits
         current_user.visits.each do |visit|
             puts "\n" + Art.s("*"*50)
             # puts "Visit ID:" + visit.id.to_s
@@ -195,8 +195,8 @@ class RideCare
             puts Art.p("Location Visited: " + Service.find(visit.service_id).location_name.to_s)
             puts Art.p("Business Address: " + Service.find(visit.service_id).address.to_s)
         end
-        Art.success
-        Art.triangle_drop
+        # Art.success
+        Art.pink_triangle_drop
         user_action
 
         #query passenger table by email, for user ID, then query visits for matching Visits.passenger_id
