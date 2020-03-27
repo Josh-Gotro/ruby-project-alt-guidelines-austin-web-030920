@@ -4,7 +4,8 @@ class Passenger < ActiveRecord::Base
     has_many :drivers, through: :rides
     has_many :services, through: :visits
 
-    def self.call_ride
+    def self.call_ride(zipcode)
+        puts "Lorem ipsum dolor sit amet, consectetur adipiscing elit." # confirmation
         current_ride = Ride.create
         current_ride.driver_id = Driver.random_driver_by_zip(78704).id
         # current_ride.passenger_id = self.passebger_id
@@ -24,4 +25,3 @@ end
 #     end
 # end
 
-    

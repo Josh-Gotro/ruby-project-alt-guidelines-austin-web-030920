@@ -118,19 +118,19 @@ class RideCare
     
 
     def view_services
-        service_search_parameter = [
-            "  1) Referral Type"
-        ]
+        # service_search_parameter = [
+        #     "  1) Referral Type"
+        # ]
 
-        service_search_parameter.each do |choice|
-            puts choice
-        end
-        user_input = get_user_input
-        if user_input == "1"
+        # service_search_parameter.each do |choice|
+        #     puts choice
+        # end
+        # user_input = get_user_input
+        # if user_input == "1"
             printed_services = print_referral_types
             selected_service = printed_services[select_referral_type.to_i - 1]
             display_selected_services(selected_service)
-        end
+        # end
     end
 
     def display_selected_services(service)
