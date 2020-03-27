@@ -14,7 +14,7 @@ class RideCare
 
     def new_user_prompt
         Art.triangle_drop
-        puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n").blink
+        puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n")
     end
 
     def passenger_exists?
@@ -22,7 +22,7 @@ class RideCare
 
         until user_input == "y" || user_input == "n"
             invalid_input
-            puts Art.s("                                 (y,n)").blink
+            puts Art.s("                                 (y,n)")
             passenger_exists?
         end
 
@@ -35,7 +35,7 @@ class RideCare
                 existing_passenger
             else
                 invalid_input
-                puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n").blink
+                puts Art.p("\n\n     Are you a new passenger?  ") + Art.s("  (y/n)\n")
                 passenger_exists?
             end
         else
@@ -44,7 +44,7 @@ class RideCare
     end
 
     def invalid_input
-        puts Art.e("     !! Sorry, but that's not a valid input !!")
+        puts Art.e("     !! Sorry, but that's not a valid input !!").blink
     end
 
     def new_passenger(email)
@@ -80,7 +80,7 @@ class RideCare
     end
 
     def user_action_prompt
-        puts Art.p("\n     What would you like to do today?\n     Select a") + Art.s(" number.\n").blink
+        puts Art.p("\n     What would you like to do today?\n     Select a") + Art.s(" number.\n")
     end
 
     def user_action
@@ -151,14 +151,14 @@ class RideCare
     end
 
     def create_visit?
-        puts Art.p("\n\n     Would you like to create a Visit? ") + Art.s("(y/n)").blink
+        puts Art.p("\n\n     Would you like to create a Visit? ") + Art.s("(y/n)")
         visit_question = get_user_input
         until visit_question == "y" || visit_question == "n"
             invalid_input
             create_visit?
         end
         if visit_question == "y"
-            puts Art.p("\n     Please input the service by ") + Art.s("number").blink
+            puts Art.p("\n     Please input the service by ") + Art.s("number")
             which_service = get_user_input
             current_user.services << (@services[which_service.to_i - 1])
             Art.booked
@@ -180,13 +180,14 @@ class RideCare
     end
 
     def select_referral_type
-        puts Art.p("\n     Select the ") + Art.s("number ").blink + Art.p("of the service you would like to view\n")
+        puts Art.p("\n     Select the ") + Art.s("number ") + Art.p("of the service you would like to view\n")
+    
         get_user_input
     end
 
 
 
-    def view_previous_visits
+    def view_previous_visits     # what if no previous visits? <----------------------------------------
         Art.visits
         current_user.visits.each do |visit|
             puts "\n" + Art.s("*"*50)
@@ -208,7 +209,7 @@ class RideCare
 
     def logout
         Art.logout
-        puts Art.p("     You have been succesfully logged out").blink
+        puts Art.n("            You have been succesfully logged out").blink
  
     end
 end

@@ -10,7 +10,8 @@ class Art < ActiveRecord::Base
 
     #Header Text
     def self.h(string)
-        string.blue.on_light_white
+        # string.blue.on_light_black
+        string.colorize(:blue)
     end
 
     #Primary Text
@@ -20,7 +21,7 @@ class Art < ActiveRecord::Base
 
     #Secondary Text
     def self.s(string)
-        string.colorize(:light_white)
+        string.colorize(:light_cyan)
     end
 
     #Error Text
@@ -30,8 +31,11 @@ class Art < ActiveRecord::Base
 
     #Numbered List
     def self.n(string) 
-        string.blue.on_light_white
+        # string.blue.on_light_black
+        string.colorize(:light_magenta)
     end
+
+
 
     ##blue on light white
     ##blue on light magenta
@@ -39,7 +43,7 @@ class Art < ActiveRecord::Base
 
     #Shapes
     def self.triangle_drop
-        puts self.p("*"*30), self.p("*"*20), self.p("*"*10), self.p("*"*2)
+        puts self.n("*"*30), self.n("*"*20), self.n("*"*10), self.n("*"*2)
     end
 
     def self.pink_triangle_drop
