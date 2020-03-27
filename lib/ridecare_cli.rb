@@ -51,12 +51,11 @@ class RideCare
             puts "Please log in!"
             existing_passenger
         else
-            Passenger.create(name: email)
+            @current_user = Passenger.create(name: email)
             puts "*"*30
             puts "\nSuccess!\n\n"
             puts "*"*30
             puts "\n\n"
-            @current_user = email
             user_action
         end
     end
@@ -68,8 +67,8 @@ class RideCare
 
     def existing_passenger
         user_email = email_prompt
-        @current_user = user_email
         if Passenger.find_by(name: user_email)
+            @current_user = Passenger.find_by(name: user_email)
             puts "*"*30
             puts "\nLogin Successful!\n\n"
             puts "*"*30
@@ -89,9 +88,9 @@ class RideCare
         user_choice_array = [
         "  1) View Services\n",
         "  2) View Previous Visits\n",
-        "  3) Call a Ride\n",
-        "  4) Log Out\n"
-    ]
+        # "  3) Call a Ride\n",
+        "  3) Log Out\n"
+        ]
         user_action_prompt
         user_choice_array.each do |choice|
             puts choice
@@ -109,16 +108,13 @@ class RideCare
             view_services #stub
         elsif user_input == "2"
             view_previous_visits #stub
-        elsif user_input == "3"
-            call_ride 
+        # elsif user_input == "3"
+        #     call_ride #stub (remember to randomize online? and zip_code for drivers)
         else
-            puts "\n", "*"*30, "\n" 
-            puts "Thank you for using RideCare today!"
-            puts "\n", "*"*30, "\n" 
-            # new_user_prompt
-            # passenger_exists?
+            logout
         end
     end
+
     
 
     def view_services
@@ -139,12 +135,34 @@ class RideCare
     end
 
     def display_selected_services(service)
-        services = Service.view_services_by(service)
+        @services = Service.view_services_by(service)
         puts "Showing all #{service}"
-        services.each do |s|
-            puts s.primary_service
-            puts s.location_name
-            puts s.address
+        puts "*"*30
+        @services.each.with_index(1) do |s, index|
+            puts "#{index})"
+            puts "  " + s.primary_service
+            puts "  " + s.location_name
+            puts "  " + s.address
+            puts "*"*30
+        end
+        create_visit?
+    end
+
+    def create_visit?
+        puts "Do you want to create a Visit? (y/n)"
+        visit_question = get_user_input
+        until visit_question == "y" || visit_question == "n"
+            invalid_input
+            create_visit?
+        end
+        if visit_question == "y"
+            puts "Please input the service by number"
+            which_service = get_user_input
+            # binding.pry
+            current_user.services << (@services[which_service.to_i - 1])
+            user_action
+        else
+            user_action
         end
     end
 
@@ -167,14 +185,21 @@ class RideCare
 
 
     def view_previous_visits
-        
+        Visits.all()
+        #query passenger table by email, for user ID, then query visits for matching Visits.passenger_id
     end
 
-    def call_ride
-    Passenger.call_ride
+    def current_user
+        @current_user
     end
 
-
+    def logout
+        puts "\n", "*"*30, "\n" 
+        puts "Thank you for using RideCare today!"
+        puts "\n", "*"*30, "\n" 
+            # new_user_prompt
+            # passenger_exists?
+    end
 end
 
 
